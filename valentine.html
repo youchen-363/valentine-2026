@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Valentine</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #fce4ec; /* Soft Pink Background */
+            --book-bg: #fffbf0;  /* Cream/Paper color */
+            --text-color: #5d4037; /* Brownish text */
+            --accent-color: #d81b60; /* Deep Pink */
+            --shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-color);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Lora', serif;
+            color: var(--text-color);
+            overflow: hidden;
+        }
+
+        /* --- Book Container --- */
+        .book-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            perspective: 1500px;
+        }
+
+        /* Common Page Styles */
+        .page-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease;
+            transform: scale(0.95);
+        }
+
+        .page-view.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: scale(1);
+            z-index: 10;
+        }
+
+        /* --- Single Page (Covers) --- */
+        .single-page {
+            width: 400px; /* Half width of container */
+            height: 100%;
+            background: var(--book-bg);
+            box-shadow: var(--shadow);
+            border-radius: 5px 15px 15px 5px;
+            padding: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* --- Double Spread (Inside Pages) --- */
+        .spread {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            box-shadow: var(--shadow);
+        }
+
+        .spread .page {
+            width: 50%;
+            height: 100%;
+            background: var(--book-bg);
+            padding: 40px;
+            overflow-y: auto; /* In case text is long */
+            position: relative;
+        }
+
+        /* Book spine effect */
+        .spread .page.left {
+            border-radius: 5px 0 0 5px;
+            border-right: 1px solid #e0e0e0;
+            background: linear-gradient(to right, #fffbf0 95%, #f0ebdc 100%);
+        }
+        .spread .page.right {
+            border-radius: 0 5px 5px 0;
+            background: linear-gradient(to left, #fffbf0 95%, #f0ebdc 100%);
+        }
+
+        /* --- Typography & Content --- */
+        h1 {
+            font-family: 'Sacramento', cursive;
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .img-placeholder {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 5px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .heart-icon {
+            color: var(--accent-color);
+            font-size: 5rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- Navigation Buttons --- */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            transition: 0.3s;
+            z-index: 20;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        #prevBtn { left: -70px; }
+        #nextBtn { right: -70px; }
+
+        /* Hide buttons conditionally via JS classes */
+        .hidden { display: none; }
+
+    </style>
+</head>
+<body>
+
+    <div class="book-container">
+        
+        <div class="page-view active" id="view-1">
+            <div class="single-page">
+                <h1>You Chen & Ellisa</h1> 
+                
+                <p>Thank you for being my gorgeous girlfriend, my babe. You're the best girlfriend in the world hehehe muakkksss 😘😘</p>
+                
+                <div style="font-size: 2rem; margin-top: 20px;">❤️</div>
+            </div>
+        </div>
+
+        <div class="page-view" id="view-2">
+            <div class="spread">
+                <div class="page left">
+                    <p>My Ewwisa Bui Buiiii,</p>
+                    <p>I still remember the first time I saw you. 
+                        I was attracted by you and couldn't move my eyes from you.
+                        It feels like yesterday, yet we have made so many memories since then. 
+                        This year valentine's is a bit different.
+                        I'm far from you in Canada, I'm sorry for not able to be with you at this memorable moment. 
+                        But here is what I want to tell you.</p>
+
+                    <p>You make everything in my life look beautiful. 
+                        You taught me a lot of things. 
+                        You're my first girlfriend. 
+                        I'm sorry that there are a lot of things 
+                        I'm bad in, I'm still trying to learn. 
+                        Thank you for teaching me so many things and 
+                        care about me every time.
+                    </p>
+                </div>
+                <div class="page right">
+                    <p>
+                        I love your laugh, your kindness, 
+                        and the way you look at me. 
+                        The way you cry, you smile, 
+                        you being sarcastic (less), 
+                        you angry (least). 
+                    </p>
+                    <p>
+                        You have been sad and depressed recently. 
+                        I wish that I could be with you during these moments.
+                        I'm sorry for all the bad things I've done that made you feel that you're not my priority and not important to me.
+                        Everytime i focus on academic, I forget other things. 
+                        I just spent too much time on it. 
+                        I promise you that as long as the following week I don't have any exams or presentations or assignment to hand in,
+                        I will spend time with you every week.
+                    </p>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-view" id="view-3">
+            <div class="spread">
+                <div class="page left">
+                    <p>
+                        Before this, I felt anxious every time I don't put enough time on study
+                        and playing games sometimes give me the same feeling.
+                        But as what I said to you, 
+                        since I'm already in exchange, 
+                        I should spend more time with you as my time is not as packed as before.
+                    </p>
+
+                    <p>
+                        余佳馨， 谢谢你出现在我的生命中。
+                        虽然你看cdrama用english subtitle，
+                        喜欢听奇奇怪怪的rap，
+                        尤其是那些aunty rapper， 
+                        但是我不会怪你的的。
+                        谢谢你坚持用华语跟我沟通。
+                        虽然你华语不好，有时词不达意，
+                        但我还是很感谢你的effort。
+                        我知道你很喜欢睡觉，但其实也知道这也许是你可以逃避现实的一个方法。
+                        网上说爱睡，一天睡很多个小时也许是因为depressed而想逃避。
+                        但不用担心，我会陪在你身边听你讲话的。
+                    </p>
+                </div>
+                <div class="page right">
+                    <p>
+                        Don't think that you have no one with you. 
+                        You always have me although I'm far away from you.
+                        I will always support what you do in your life and being your stone to lay on.
+                    </p>
+                    <p>
+                        No matter where we go or what we do, as long as I'm with you, I am happy.
+                        I love spending time with you and hope that we could have more time to spend together.
+                    </p>
+                    <p>
+                        Thank you again for everything you have done for me.
+                        I appreciate you in my life and hope we can be together for a longer time.
+                    </p>
+                    <br>
+                    <p style="text-align: right; font-style: italic;">- Ah Chen, your Bui Bui</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-view" id="view-4">
+            <div class="spread">
+                <div class="page left" style="display: flex; align-items: center; justify-content: center;">
+                    <!-- Need to find a way to fetch the images, maybe just save to supabase storage like hackathon -->
+                    <img src="https://xrcwgjutxxysjmfannsu.supabase.co/storage/v1/object/sign/images/Photo%2014-02-2026,%202%2049%2033%20AM%20(1)%20(1).jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yMjdkMzYzNi0xNDk4LTQ3MTYtYmEzMy01MGE4Y2Y3Y2VkMTMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvUGhvdG8gMTQtMDItMjAyNiwgMiA0OSAzMyBBTSAoMSkgKDEpLmpwZyIsImlhdCI6MTc3MTA2OTAzOSwiZXhwIjoxNzczNjYxMDM5fQ.1ck90Gt6y1q3zvw_WDeIsoBqpxRZ6B7z38zePF04cg8" class="img-placeholder" alt="Our Memory 1">
+                </div>
+                <div class="page right" style="display: flex; align-items: center; justify-content: center;">
+                    <img src="https://xrcwgjutxxysjmfannsu.supabase.co/storage/v1/object/sign/images/Photo%2014-02-2026,%202%2049%2033%20AM%20(1).jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yMjdkMzYzNi0xNDk4LTQ3MTYtYmEzMy01MGE4Y2Y3Y2VkMTMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvUGhvdG8gMTQtMDItMjAyNiwgMiA0OSAzMyBBTSAoMSkuanBnIiwiaWF0IjoxNzcxMDY5MDYyLCJleHAiOjE3NzM2NjEwNjJ9.TB4KdLVCTBZMxLyBIAE_ndD__A0HBhpJoCD4EqBdoq0" class="img-placeholder" alt="Our Memory 2">
+                </div>
+            </div>
+        </div>
+
+        <div class="page-view" id="view-5">
+            <div class="spread">
+                <div class="page left" style="display: flex; align-items: center; justify-content: center;">
+                    <!-- Need to find a way to fetch the images, maybe just save to supabase storage like hackathon -->
+                    <img src="https://xrcwgjutxxysjmfannsu.supabase.co/storage/v1/object/sign/images/Photo%2014-02-2026,%202%2049%2033%20AM.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yMjdkMzYzNi0xNDk4LTQ3MTYtYmEzMy01MGE4Y2Y3Y2VkMTMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvUGhvdG8gMTQtMDItMjAyNiwgMiA0OSAzMyBBTS5qcGciLCJpYXQiOjE3NzEwNjkwNzcsImV4cCI6MTc3MzY2MTA3N30.2Q_DblaC85unBQ2m04_ZwyEtyUbm8zXz5pKwWiIerIw" class="img-placeholder" alt="Our Memory 1">
+                </div>
+                <div class="page right" style="display: flex; align-items: center; justify-content: center;">
+                    <img src="https://xrcwgjutxxysjmfannsu.supabase.co/storage/v1/object/sign/images/Photo%2014-02-2026,%202%2049%2034%20AM%20(1).jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yMjdkMzYzNi0xNDk4LTQ3MTYtYmEzMy01MGE4Y2Y3Y2VkMTMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvUGhvdG8gMTQtMDItMjAyNiwgMiA0OSAzNCBBTSAoMSkuanBnIiwiaWF0IjoxNzcxMDY5MDg1LCJleHAiOjE3NzM2NjEwODV9.8AHbsnTW3A8oIqkyIoT8mAa6dAT6bFq_PZU2AybbW6Y" class="img-placeholder" alt="Our Memory 2">
+                </div>
+            </div>
+        </div>
+
+        <div class="page-view" id="view-6">
+            <div class="spread">
+                <div class="page left" style="display: flex; align-items: center; justify-content: center;">
+                    <!-- Need to find a way to fetch the images, maybe just save to supabase storage like hackathon -->
+                    <img src="https://xrcwgjutxxysjmfannsu.supabase.co/storage/v1/object/sign/images/Photo%2014-02-2026,%202%2049%2034%20AM.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yMjdkMzYzNi0xNDk4LTQ3MTYtYmEzMy01MGE4Y2Y3Y2VkMTMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvUGhvdG8gMTQtMDItMjAyNiwgMiA0OSAzNCBBTS5qcGciLCJpYXQiOjE3NzEwNjkxMTQsImV4cCI6MTc3MzY2MTExNH0.sU5fraz-KD65XSHXGyWUqVnUgxfQCYP24Ix0cdAXrdE" class="img-placeholder" alt="Our Memory 1">
+                </div>
+                <div class="page right" style="display: flex; align-items: center; justify-content: center;">
+                    <img src="https://xrcwgjutxxysjmfannsu.supabase.co/storage/v1/object/sign/images/Photo%2014-02-2026,%203%2012%2011%20AM.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yMjdkMzYzNi0xNDk4LTQ3MTYtYmEzMy01MGE4Y2Y3Y2VkMTMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvUGhvdG8gMTQtMDItMjAyNiwgMyAxMiAxMSBBTS5qcGciLCJpYXQiOjE3NzEwNjkxMjMsImV4cCI6MTc3MzY2MTEyM30.TWv55oHiN0XELq10bdlc6Mg4hAcvoyZrJtsACh5fKIY" class="img-placeholder" alt="Our Memory 2">
+                </div>
+            </div>
+        </div>
+
+        <div class="page-view" id="view-7">
+            <div class="spread">
+                <div class="page left" style="display: flex; align-items: center; justify-content: center;">
+                    <!-- Need to find a way to fetch the images, maybe just save to supabase storage like hackathon -->
+                    <img src="https://xrcwgjutxxysjmfannsu.supabase.co/storage/v1/object/sign/images/Photo%2024-07-2024,%2012%2050%2039%20PM.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yMjdkMzYzNi0xNDk4LTQ3MTYtYmEzMy01MGE4Y2Y3Y2VkMTMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvUGhvdG8gMjQtMDctMjAyNCwgMTIgNTAgMzkgUE0uanBnIiwiaWF0IjoxNzcxMDY5MTM2LCJleHAiOjE3NzM2NjExMzZ9.ZuvIg9dijF75zh_OUuzZK55W73HHer_GB6LN1vPEeo4" class="img-placeholder" alt="Our Memory 1">
+                </div>
+                <div class="page right" style="display: flex; align-items: center; justify-content: center;">
+                    <img src="https://xrcwgjutxxysjmfannsu.supabase.co/storage/v1/object/sign/images/Photo%2025-12-2025,%201%2034%2051%20PM.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yMjdkMzYzNi0xNDk4LTQ3MTYtYmEzMy01MGE4Y2Y3Y2VkMTMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvUGhvdG8gMjUtMTItMjAyNSwgMSAzNCA1MSBQTS5qcGciLCJpYXQiOjE3NzEwNjkxNDYsImV4cCI6MTc3MzY2MTE0Nn0.1kdmVLvUT-ObFXLEpa8QYudAmiqdhWfZnivrHVeVrUo" class="img-placeholder" alt="Our Memory 2">
+                </div>
+            </div>
+        </div>
+
+        <div class="page-view" id="view-8">
+            <div class="spread">
+                <div class="page left" style="display: flex; align-items: center; justify-content: center;">
+                    <!-- Need to find a way to fetch the images, maybe just save to supabase storage like hackathon -->
+                    <img src="https://xrcwgjutxxysjmfannsu.supabase.co/storage/v1/object/sign/images/Photo%2026-12-2025,%203%2018%2026%20PM.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yMjdkMzYzNi0xNDk4LTQ3MTYtYmEzMy01MGE4Y2Y3Y2VkMTMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvUGhvdG8gMjYtMTItMjAyNSwgMyAxOCAyNiBQTS5qcGciLCJpYXQiOjE3NzEwNjkxNTUsImV4cCI6MTc3MzY2MTE1NX0.Kp_6n_wiZpqXb1XVRa5nCNvJNr654tLT5hB2VWbSnJo" class="img-placeholder" alt="Our Memory 1">
+                </div>
+                <div class="page right" style="display: flex; align-items: center; justify-content: center;">
+                    <img src="https://xrcwgjutxxysjmfannsu.supabase.co/storage/v1/object/sign/images/Photo%2028-12-2025,%2010%2021%2055%20AM.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8yMjdkMzYzNi0xNDk4LTQ3MTYtYmEzMy01MGE4Y2Y3Y2VkMTMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvUGhvdG8gMjgtMTItMjAyNSwgMTAgMjEgNTUgQU0uanBnIiwiaWF0IjoxNzcxMDY5MTY0LCJleHAiOjE3NzM2NjExNjR9.yP7LQhEM7QjnlaYRhtqIhu2QAAkQ2v3W6x9LgXkqCyo" class="img-placeholder" alt="Our Memory 2">
+                </div>
+            </div>
+        </div>
+
+        <div class="page-view" id="view-9">
+            <div class="single-page">
+                <h1>Love you my babe</h1>
+                
+                <div class="heart-icon">❤️</div>
+                
+                <p style="margin-top: 30px; font-size: 0.9rem; opacity: 0.7;">Happy Valentine's Day</p>
+            </div>
+        </div>
+
+        <button class="nav-btn" id="prevBtn" onclick="prevPage()">&#10094;</button>
+        <button class="nav-btn" id="nextBtn" onclick="nextPage()">&#10095;</button>
+
+    </div>
+
+    <script>
+        let currentView = 1;
+        const totalViews = 9; // Cover, Text Spread, Image Spread, Back Cover
+
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function updateView() {
+            // Hide all views
+            document.querySelectorAll('.page-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            
+            // Show current view
+            document.getElementById(`view-${currentView}`).classList.add('active');
+
+            // Handle button visibility
+            if (currentView === 1) {
+                prevBtn.classList.add('hidden');
+            } else {
+                prevBtn.classList.remove('hidden');
+            }
+
+            if (currentView === totalViews) {
+                nextBtn.classList.add('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+            }
+        }
+
+        function nextPage() {
+            if (currentView < totalViews) {
+                currentView++;
+                updateView();
+            }
+        }
+
+        function prevPage() {
+            if (currentView > 1) {
+                currentView--;
+                updateView();
+            }
+        }
+
+        // Initialize
+        updateView();
+
+        // Keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            if(e.key === "ArrowRight") nextPage();
+            if(e.key === "ArrowLeft") prevPage();
+        });
+    </script>
+</body>
+</html>
